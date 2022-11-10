@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Amazon",
+    "address": "Plm Street",
+    "stockCount": 1500,
+    "stock": {
+      "price": 1.23,
+      "company": ""
+    }
+  },
+
+  {
+    "id" : 2,
+    "name": "Google",
+    "address": "Wolf of whatever",
+    "stockCount" : 10000,
+    "stock": {
+      "price": 420.69,
+      "company": ""
+    }
+  }
+]
