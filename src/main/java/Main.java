@@ -1,5 +1,7 @@
 
+import bzl.simulateRequest.SimulateRequestMultithreaded;
 import com.rabbitmq.client.DeliverCallback;
+import entity.Request;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
@@ -10,6 +12,8 @@ import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 public class Main {
@@ -21,35 +25,33 @@ public class Main {
             ex.printStackTrace();
         }
 
-//        ConnectionFactory factory = new ConnectionFactory();
-//        factory.setHost("localhost");
-//        try (Connection connection = factory.newConnection();
-//             Channel channel = connection.createChannel()) {
-//            String QUEUE_NAME = "Concurr";
-//            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-//            String message = "PLM SENT World!";
-//            channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
-//            System.out.println(" [x] Sent '" + message + "'");
-//        } catch(Exception e) {
-//
-//        }
 
-        String QUEUE_NAME = "Concurr";
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+        List<Request> myReqList = new ArrayList<>();
+        Request req = new Request(15, "Amazon", Request.RequestType.BUY);
+        Request req1 = new Request(15, "Google", Request.RequestType.SELL);
+        Request req2 = new Request(15, "3Pillar", Request.RequestType.SELL);
+        Request req3 = new Request(15, "Apple", Request.RequestType.BUY);
+        Request req4 = new Request(15, "Samsung", Request.RequestType.BUY);
+        Request req5 = new Request(15, "3Pillar", Request.RequestType.SELL);
+        Request req6 = new Request(15, "Google", Request.RequestType.BUY);
+        Request req7 = new Request(15, "Tesla", Request.RequestType.SELL);
+        Request req8 = new Request(15, "Xiaomi", Request.RequestType.SELL);
+        Request req9 = new Request(15, "Softnrg", Request.RequestType.BUY);
 
-        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "'");
-        };
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
-
-
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req3);
+        myReqList.add(req4);
+        myReqList.add(req5);
+        myReqList.add(req6);
+        myReqList.add(req7);
+        myReqList.add(req8);
+        myReqList.add(req9);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        SimulateRequestMultithreaded reqMultithreaded = new SimulateRequestMultithreaded(5, "Concurr", myReqList);
+        reqMultithreaded.execute();
     }
 }
 
