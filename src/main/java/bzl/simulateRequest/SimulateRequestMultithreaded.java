@@ -56,7 +56,6 @@ public class SimulateRequestMultithreaded {
             return false;
         }
         return true;
-        return true;
     }
 
 
