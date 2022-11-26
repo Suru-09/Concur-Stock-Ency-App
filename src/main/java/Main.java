@@ -1,19 +1,20 @@
 
-import bzl.simulateRequest.SimulateRequestMultithreaded;
-import com.rabbitmq.client.DeliverCallback;
+import bzl.consumeRequest.RequestConsumer;
+import bzl.simulateRequest.SendRequestT;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import entity.Request;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
 // RabbitMQ
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
 public class Main {
@@ -25,6 +26,7 @@ public class Main {
             ex.printStackTrace();
         }
 
+        ExecutorService threadExec = Executors.newFixedThreadPool(4);
 
         List<Request> myReqList = new ArrayList<>();
         Request req = new Request(15, "Amazon", Request.RequestType.BUY);
@@ -50,13 +52,78 @@ public class Main {
         myReqList.add(req);
         myReqList.add(req);
         myReqList.add(req);
-        SimulateRequestMultithreaded reqMultithreaded = new SimulateRequestMultithreaded(5, "Concurr", myReqList);
-        reqMultithreaded.execute();
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+        myReqList.add(req);
+
+
+        for(Request someReq: myReqList)
+        {
+            SendRequestT work = new SendRequestT(someReq, "Concurr");
+            threadExec.submit(work);
+        }
+
+        Connection connection = new ConnectionFactory().newConnection();
+        Channel channel = connection.createChannel();
+        RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", threadExec);
+
+
+
     }
 }
-
-/*
-    (Simulated) Multiple Client Requests(Events) ------------> processed by RabbitMQ ----------> GSONRepo
-          [A class simulating clients which send
-            requests concurrenctly]
- */

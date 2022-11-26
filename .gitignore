@@ -1,5 +1,17 @@
 */.idea
 .idea
+
+# Ignore build
 build
 build/
+
+# Ignore build
 .gradle
+**/build/
+!src/**/build/
+
+# Ignore random shit
+.gradle/7.1/*
+.gradle/*/
+.gradle/*/*
+
