@@ -7,13 +7,15 @@ public class Request {
     }
 
     private int price;
+    private int noOfStocks;
     private String companyName;
     private RequestType requestType;
 
-    public Request(int price, String companyName, RequestType requestType) {
+    public Request(int price, String companyName, RequestType requestType, int noOfStocks) {
         this.price = price;
         this.companyName = companyName;
         this.requestType = requestType;
+        this.noOfStocks = noOfStocks;
     }
 
     public int getPrice() {
@@ -40,10 +42,19 @@ public class Request {
         this.requestType = requestType;
     }
 
+    public int getNoOfStocks() {
+        return noOfStocks;
+    }
+
+    public void setNoOfStocks(int noOfStocks) {
+        this.noOfStocks = noOfStocks;
+    }
+
     @Override
     public String toString() {
         return "Request{" +
                 "price=" + price +
+                ", noOfStocks=" + noOfStocks +
                 ", companyName='" + companyName + '\'' +
                 ", requestType=" + requestType +
                 '}';

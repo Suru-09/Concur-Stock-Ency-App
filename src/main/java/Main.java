@@ -29,16 +29,16 @@ public class Main {
         ExecutorService threadExec = Executors.newFixedThreadPool(24);
 
         List<Request> myReqList = new ArrayList<>();
-        Request req = new Request(15, "Amazon", Request.RequestType.BUY);
-        Request req1 = new Request(15, "Google", Request.RequestType.SELL);
-        Request req2 = new Request(15, "3Pillar", Request.RequestType.SELL);
-        Request req3 = new Request(15, "Apple", Request.RequestType.BUY);
-        Request req4 = new Request(15, "Samsung", Request.RequestType.BUY);
-        Request req5 = new Request(15, "3Pillar", Request.RequestType.SELL);
-        Request req6 = new Request(15, "Google", Request.RequestType.BUY);
-        Request req7 = new Request(15, "Tesla", Request.RequestType.SELL);
-        Request req8 = new Request(15, "Xiaomi", Request.RequestType.SELL);
-        Request req9 = new Request(15, "Softnrg", Request.RequestType.BUY);
+        Request req = new Request(15, "Amazon", Request.RequestType.BUY, 10);
+        Request req1 = new Request(15, "Google", Request.RequestType.SELL, 13);
+        Request req2 = new Request(15, "3Pillar", Request.RequestType.SELL, 2);
+        Request req3 = new Request(15, "Apple", Request.RequestType.BUY, 4);
+        Request req4 = new Request(15, "Samsung", Request.RequestType.BUY, 500);
+        Request req5 = new Request(15, "3Pillar", Request.RequestType.SELL, 12);
+        Request req6 = new Request(15, "Google", Request.RequestType.BUY, 14);
+        Request req7 = new Request(15, "Tesla", Request.RequestType.SELL, 157);
+        Request req8 = new Request(15, "Xiaomi", Request.RequestType.SELL, 169);
+        Request req9 = new Request(15, "Softnrg", Request.RequestType.BUY, 2132);
 
         myReqList.add(req);
         myReqList.add(req2);
