@@ -1,7 +1,9 @@
 # Concurrency Stock App
+
 -----------------
 
 ## **Functional requirements**
+
 ------------
 
 •	A user can place a request to sell/buy stocks at a certain price. 
@@ -9,6 +11,7 @@
 •	A user can see the current price of the stock they’re looking for.
 
 ## **Non-functional requirements**
+
 ------------
 
 
@@ -19,6 +22,9 @@
 
 
 ## **Concurrency Issues** 
+
+----------------------
+
 
 ```
   Problem: How do we manage having multiple threads?
@@ -42,9 +48,24 @@
 ```
 
 ## **High-level component design** 
+
 -------------------------------
 
-![wtf](https://github.com/Suru-09/Concur-Stock-Ency-App/blob/main/docs/ArchitectureUML.png)
+![Architecture](docs/ArchitectureUML.png)
 
+
+## TODO
+
+-------------
+
+
+- modify SendRequest so that each thread has only 1 channel
+- modify SendRequest so that it has only one connection for one Rabbit Queue.
+- implement Sell and Buy stocks in ProcessRequest(bzl).
+- modify main so that consume is not an infinite loop.
+- do the closing of the channels/connections at the end of main.
+- also write back the new content for the companies in its json.
+- make ConsumerRequest return on callback true/false for the processed request of the user.
+- solve the serialising issues with futures when calling get() instead of isDone().
 
 
