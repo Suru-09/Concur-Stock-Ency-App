@@ -32,6 +32,8 @@ public class SendRequestT implements Runnable {
     {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
+
+        // TO DO: we SHOULD NOT have a new connection for every request
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel())
         {

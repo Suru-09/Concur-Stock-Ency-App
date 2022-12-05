@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Amazon",
-    "address": "Plm Street",
+    "address": "Starvation Street",
     "stockCount": 1500,
     "stock": {
       "price": 1.23,

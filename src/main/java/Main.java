@@ -18,15 +18,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
 public class Main {
-    public static void main(String[] argv) throws IOException, TimeoutException {
-        GSONRepo repo = new GSONRepo();
+    public static void main(String[] argv) throws IOException, TimeoutException, RepoException {
+        GSONRepo repo = GSONRepo.getInstance();
         try {
             repo.loadData();
         } catch (RepoException ex) {
             ex.printStackTrace();
         }
 
-        ExecutorService threadExec = Executors.newFixedThreadPool(4);
+        ExecutorService threadExec = Executors.newFixedThreadPool(24);
 
         List<Request> myReqList = new ArrayList<>();
         Request req = new Request(15, "Amazon", Request.RequestType.BUY);
@@ -49,66 +49,66 @@ public class Main {
         myReqList.add(req7);
         myReqList.add(req8);
         myReqList.add(req9);
+        myReqList.add(req6);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req2);
+        myReqList.add(req2);
+        myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req2);
+        myReqList.add(req6);
         myReqList.add(req);
         myReqList.add(req);
+        myReqList.add(req2);
         myReqList.add(req);
         myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req6);
         myReqList.add(req);
         myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req6);
         myReqList.add(req);
         myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req6);
+        myReqList.add(req);
+        myReqList.add(req2);
+        myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req2);
         myReqList.add(req);
         myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req2);
+        myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req2);
         myReqList.add(req);
         myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req2);
+        myReqList.add(req6);
         myReqList.add(req);
+        myReqList.add(req2);
         myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req);
+        myReqList.add(req6);
+        myReqList.add(req2);
         myReqList.add(req);
         myReqList.add(req);
 
@@ -122,8 +122,6 @@ public class Main {
         Connection connection = new ConnectionFactory().newConnection();
         Channel channel = connection.createChannel();
         RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", threadExec);
-
-
 
     }
 }
