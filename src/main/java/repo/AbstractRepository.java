@@ -4,15 +4,15 @@ import entity.BaseEntity;
 import exceptions.RepoException;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractRepository<ID, T extends BaseEntity<ID>> implements Repository<T, ID> {
     protected Map<ID, T> elems;
 
     public AbstractRepository()
     {
-        elems = new HashMap<>();
+        elems = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -35,6 +35,12 @@ public abstract class AbstractRepository<ID, T extends BaseEntity<ID>> implement
         {
             throw new RepoException("Element not in the repo");
         }
+    }
+
+    @Override
+    public T get(ID id) throws RepoException
+    {
+        return elems.get(id);
     }
 
     @Override

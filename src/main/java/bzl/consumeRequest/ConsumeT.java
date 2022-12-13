@@ -1,5 +1,7 @@
 package bzl.consumeRequest;
 
+import bzl.processRequest.ProcessRequest;
+
 import java.util.concurrent.Callable;
 
 public class ConsumeT implements Callable<Boolean> {
@@ -12,7 +14,8 @@ public class ConsumeT implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-        // I do nice things
+        ProcessRequest bzl = new ProcessRequest(msg);
+        bzl.buyStocks();
         return true;
     }
 }

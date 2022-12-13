@@ -51,7 +51,12 @@
 
 -------------------------------
 
-![Architecture](docs/ArchitectureUML.png)
+![Architecture](docs/High-level-arch.png)
+
+
+## **Class diagram**
+
+![ClassDiagram](docs/ArchitectureUML.png)
 
 
 ## TODO

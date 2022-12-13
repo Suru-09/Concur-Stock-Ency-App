@@ -8,12 +8,12 @@ public class Request {
 
     private int price;
     private int noOfStocks;
-    private String companyName;
+    private Long  companyId;
     private RequestType requestType;
 
-    public Request(int price, String companyName, RequestType requestType, int noOfStocks) {
+    public Request(int price, Long companyId, RequestType requestType, int noOfStocks) {
         this.price = price;
-        this.companyName = companyName;
+        this.companyId = companyId;
         this.requestType = requestType;
         this.noOfStocks = noOfStocks;
     }
@@ -26,12 +26,12 @@ public class Request {
         this.price = price;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompanyName(Long companyId) {
+        this.companyId = companyId;
     }
 
     public RequestType getRequestType() {
@@ -52,11 +52,11 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "price=" + price +
-                ", noOfStocks=" + noOfStocks +
-                ", companyName='" + companyName + '\'' +
-                ", requestType=" + requestType +
-                '}';
+        return "{" +
+                "\n price: " + price +
+                ",\n noOfStocks: " + noOfStocks +
+                ",\n companyId: " + companyId +
+                ",\n requestType: " + requestType +
+                "\n}";
     }
 }
