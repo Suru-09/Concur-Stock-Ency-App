@@ -38,7 +38,7 @@ public class RequestGate {
 
     public void start()
     {
-        if(start)
+        if(true)
         {
             this.start = true;
             sendRequestsForProcessing();

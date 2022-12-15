@@ -7,6 +7,7 @@ import exceptions.RepoException;
 import repo.GSONRepo;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public class ProcessRequest implements Callable<Boolean> {
 
@@ -33,6 +34,7 @@ public class ProcessRequest implements Callable<Boolean> {
             comp.setStock(companyStock);
             repo.update(comp);
         }
+        System.out.println(comp);
         return true;
     }
 
@@ -51,12 +53,21 @@ public class ProcessRequest implements Callable<Boolean> {
             comp.setStock(companyStock);
             repo.update(comp);
         }
+        System.out.println(comp);
 
         return true;
     }
 
     @Override
     public Boolean call() {
+//        try {
+//            Thread.sleep(500);
+//        }
+//        catch(InterruptedException e)
+//        {
+//            e.printStackTrace();
+//        }
+
         boolean result = false;
         if (request.getRequestType() == Request.RequestType.BUY) {
             try {

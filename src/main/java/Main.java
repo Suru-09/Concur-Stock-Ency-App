@@ -84,23 +84,18 @@ public class Main {
         myReqList.add(req);
         myReqList.add(req2);
 
-
         for(Request someReq: myReqList)
         {
             SendRequestT work = new SendRequestT(someReq, "Concurr");
             threadExec.submit(work);
-            for(Request someReq1: myReqList)
-            {
-                SendRequestT work1 = new SendRequestT(someReq1, "Concurr");
-                threadExec.submit(work1);
-            }
-
-            Connection connection = new ConnectionFactory().newConnection();
-            Channel channel = connection.createChannel();
-            RequestGate reqGate = new RequestGate(threadExec);
-            RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", reqGate);
         }
-        threadExec.shutdown();
-        while(!threadExec.isTerminated()) {}
+
+        Connection connection = new ConnectionFactory().newConnection();
+        Channel channel = connection.createChannel();
+        RequestGate reqGate = new RequestGate(threadExec);
+        RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", reqGate);
+
+//        threadExec.shutdown();
+//        while(!threadExec.isTerminated()) {}
     }
 }

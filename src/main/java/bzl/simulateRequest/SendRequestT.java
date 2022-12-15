@@ -53,7 +53,7 @@ public class SendRequestT implements Runnable {
     private void processCommand()
     {
         try {
-            Thread.sleep(350);
+            Thread.sleep(50);
         }
         catch(InterruptedException e) {
             e.printStackTrace();
