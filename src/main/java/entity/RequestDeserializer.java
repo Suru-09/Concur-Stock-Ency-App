@@ -10,7 +10,6 @@ private String serializedRequest;
     {
         Gson gson = new Gson();
         Request request = gson.fromJson(requestJson, Request.class);
-        System.out.println(request);
 
         return request;
     }

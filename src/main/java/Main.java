@@ -1,5 +1,6 @@
 
 import bzl.consumeRequest.RequestConsumer;
+import bzl.processRequest.RequestGate;
 import bzl.simulateRequest.SendRequestT;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -26,7 +27,7 @@ public class Main {
             ex.printStackTrace();
         }
 
-        ExecutorService threadExec = Executors.newFixedThreadPool(24);
+        ExecutorService threadExec = Executors.newCachedThreadPool();
 
         List<Request> myReqList = new ArrayList<>();
         Request req = new Request(15, 1L, Request.RequestType.BUY, 10);
@@ -82,46 +83,24 @@ public class Main {
         myReqList.add(req);
         myReqList.add(req);
         myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req2);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req);
 
 
         for(Request someReq: myReqList)
         {
             SendRequestT work = new SendRequestT(someReq, "Concurr");
             threadExec.submit(work);
+            for(Request someReq1: myReqList)
+            {
+                SendRequestT work1 = new SendRequestT(someReq1, "Concurr");
+                threadExec.submit(work1);
+            }
+
+            Connection connection = new ConnectionFactory().newConnection();
+            Channel channel = connection.createChannel();
+            RequestGate reqGate = new RequestGate(threadExec);
+            RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", reqGate);
         }
-
-        Connection connection = new ConnectionFactory().newConnection();
-        Channel channel = connection.createChannel();
-        RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", threadExec);
-
+        threadExec.shutdown();
+        while(!threadExec.isTerminated()) {}
     }
 }

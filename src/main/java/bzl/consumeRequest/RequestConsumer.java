@@ -1,5 +1,6 @@
 package bzl.consumeRequest;
 
+import bzl.processRequest.RequestGate;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 public class RequestConsumer extends DefaultConsumer {
-    String request;
+    RequestGate requestGate;
     ExecutorService executor;
 
     /**
@@ -18,9 +19,9 @@ public class RequestConsumer extends DefaultConsumer {
      *
      * @param channel the channel to which this consumer is attached
      */
-    public RequestConsumer(Channel channel, String rabbitQ, ExecutorService executor) {
+    public RequestConsumer(Channel channel, String rabbitQ, RequestGate reqGate) {
         super(channel);
-        this.executor = executor;
+        requestGate = reqGate;
         try {
             channel.basicConsume(rabbitQ, true, this);
         } catch (IOException e) {
@@ -36,17 +37,8 @@ public class RequestConsumer extends DefaultConsumer {
                                byte[] body)
 
     {
-        Future<Boolean> future = executor.submit(new ConsumeT(new String(body, StandardCharsets.UTF_8)));
-        try {
-            Boolean resp = future.isDone() ? future.get() : null;
-            if (resp != null)
-            {
-                String msg = future.get() ? "Wtf works" : "Wtf doesn't wokr";
-                System.out.println(msg);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        requestGate.addRequest(new String(body, StandardCharsets.UTF_8));
+        requestGate.start();
     }
 }
 

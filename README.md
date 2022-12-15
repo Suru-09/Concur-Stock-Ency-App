@@ -34,7 +34,7 @@
 ```
   Problem: How do we simulate a user request?
   Answer: We are using events, therefore in our application a request is interchangeable with an event. 
-          Our preferred framework is RabbitMQ.
+          Our preferred framework is rabbitMQ.
 ```
 
 ```

@@ -6,23 +6,17 @@ import entity.RequestDeserializer;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
-public class ProcessRequest {
+import java.util.concurrent.Callable;
+
+public class ProcessRequest implements Callable<Boolean> {
 
     private GSONRepo repo;
     private Request request;
 
-    public ProcessRequest(String request)
+    public ProcessRequest(Request request, GSONRepo repo)
     {
-        try
-        {
-            repo = GSONRepo.getInstance();
-        }
-        catch( RepoException e)
-        {
-            e.printStackTrace();
-        }
-        this.request = RequestDeserializer.toRequest(request);
-        System.out.println(this.request);
+        this.repo = repo;
+        this.request = request;
     }
 
 
@@ -30,19 +24,15 @@ public class ProcessRequest {
         Long companyId = request.getCompanyId();
         Company comp = repo.get(companyId);
 
-        synchronized (this)
+        // TO DO: dumb matching we have to improve here
+        if ( request.getPrice() < comp.getStock().getPrice() )
         {
-            // TO DO: dumb matching we have to improve here
-            if ( request.getPrice() < comp.getStock().getPrice() )
-            {
-                comp.setStockCount(comp.getStockCount() + request.getNoOfStocks());
-                var companyStock = comp.getStock();
-                companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
-                comp.setStock(companyStock);
-                repo.update(comp);
-            }
+            comp.setStockCount(comp.getStockCount() + request.getNoOfStocks());
+            var companyStock = comp.getStock();
+            companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
+            comp.setStock(companyStock);
+            repo.update(comp);
         }
-
         return true;
     }
 
@@ -51,25 +41,43 @@ public class ProcessRequest {
         Long companyId = request.getCompanyId();
         Company comp = repo.get(companyId);
 
-        synchronized (this)
+        // TO DO: dumb matching we have to improve here
+        if ( request.getNoOfStocks() < comp.getStockCount() &&
+            request.getPrice() < comp.getStock().getPrice() )
         {
-            // TO DO: dumb matching we have to improve here
-            if ( request.getNoOfStocks() < comp.getStockCount() &&
-                request.getPrice() < comp.getStock().getPrice() )
-            {
-                comp.setStockCount(comp.getStockCount() - request.getNoOfStocks());
-                var companyStock = comp.getStock();
-                companyStock.setPrice((float) (companyStock.getPrice() + 1.15));
-                comp.setStock(companyStock);
-                repo.update(comp);
-            }
+            comp.setStockCount(comp.getStockCount() - request.getNoOfStocks());
+            var companyStock = comp.getStock();
+            companyStock.setPrice((float) (companyStock.getPrice() + 1.15));
+            comp.setStock(companyStock);
+            repo.update(comp);
         }
 
         return true;
     }
 
-    public void updateCompany()
-    {
+    @Override
+    public Boolean call() {
+        boolean result = false;
+        if (request.getRequestType() == Request.RequestType.BUY) {
+            try {
+                result = buyStocks();
+            }
+            catch(RepoException e)
+            {
+                e.printStackTrace();
+            }
 
+        }
+        else if(request.getRequestType() == Request.RequestType.SELL)
+        {
+            try {
+                result = sellStocks();
+            }
+            catch(RepoException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }
