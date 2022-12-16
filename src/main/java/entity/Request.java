@@ -9,11 +9,13 @@ public class Request {
     private int price;
     private int noOfStocks;
     private Long  companyId;
+    private Long clientId;
     private RequestType requestType;
 
-    public Request(int price, Long companyId, RequestType requestType, int noOfStocks) {
+    public Request(int price, Long clientId, Long companyId, RequestType requestType, int noOfStocks) {
         this.price = price;
         this.companyId = companyId;
+        this.clientId = clientId;
         this.requestType = requestType;
         this.noOfStocks = noOfStocks;
     }
@@ -28,6 +30,10 @@ public class Request {
 
     public Long getCompanyId() {
         return companyId;
+    }
+
+    public Long getClientId() {
+        return clientId;
     }
 
     public void setCompanyName(Long companyId) {
@@ -56,6 +62,7 @@ public class Request {
                 "\n price: " + price +
                 ",\n noOfStocks: " + noOfStocks +
                 ",\n companyId: " + companyId +
+                ",\n clientId: " + clientId +
                 ",\n requestType: " + requestType +
                 "\n}";
     }

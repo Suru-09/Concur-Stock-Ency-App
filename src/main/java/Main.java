@@ -5,7 +5,9 @@ import bzl.simulateRequest.SendRequestT;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import entity.Company;
 import entity.Request;
+import entity.RequestGenerator;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
@@ -28,61 +30,10 @@ public class Main {
         }
 
         ExecutorService threadExec = Executors.newCachedThreadPool();
+        RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
 
-        List<Request> myReqList = new ArrayList<>();
-        Request req = new Request(15, 1L, Request.RequestType.BUY, 10);
-        Request req1 = new Request(15, 2L, Request.RequestType.SELL, 13);
-        Request req2 = new Request(15, 1L, Request.RequestType.SELL, 2);
-        Request req3 = new Request(15, 1L, Request.RequestType.BUY, 4);
-        Request req4 = new Request(15, 1L, Request.RequestType.BUY, 500);
-        Request req5 = new Request(15, 1L, Request.RequestType.SELL, 12);
-        Request req6 = new Request(15, 2L, Request.RequestType.BUY, 14);
-        Request req7 = new Request(15, 2L, Request.RequestType.SELL, 157);
-        Request req8 = new Request(15, 1L, Request.RequestType.SELL, 169);
-        Request req9 = new Request(15, 1L, Request.RequestType.BUY, 2132);
+        List<Request> myReqList = reqGenerator.RequestPullGenerator(100);
 
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req3);
-        myReqList.add(req4);
-        myReqList.add(req5);
-        myReqList.add(req6);
-        myReqList.add(req7);
-        myReqList.add(req8);
-        myReqList.add(req9);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req2);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req2);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req2);
-        myReqList.add(req6);
-        myReqList.add(req);
-        myReqList.add(req);
-        myReqList.add(req2);
 
         for(Request someReq: myReqList)
         {
