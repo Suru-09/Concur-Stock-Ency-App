@@ -1,5 +1,5 @@
 
-import bzl.consumeRequest.RequestConsumer;
+import bzl.consumer.RequestConsumer;
 import bzl.processRequest.RequestGate;
 import bzl.simulateRequest.SendRequestT;
 import com.rabbitmq.client.Channel;
@@ -14,7 +14,6 @@ import repo.GSONRepo;
 // RabbitMQ
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,15 +32,16 @@ public class Main {
         RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
 
         List<Request> myReqList = reqGenerator.RequestPullGenerator(100);
-
+        Connection connection = new ConnectionFactory().newConnection();
 
         for(Request someReq: myReqList)
         {
-            SendRequestT work = new SendRequestT(someReq, "Concurr");
+            Channel channel = connection.createChannel();
+            SendRequestT work = new SendRequestT(someReq.toString(), "Concurr");
             threadExec.submit(work);
         }
 
-        Connection connection = new ConnectionFactory().newConnection();
+        //Connection connection = new ConnectionFactory().newConnection();
         Channel channel = connection.createChannel();
         RequestGate reqGate = new RequestGate(threadExec);
         RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", reqGate);

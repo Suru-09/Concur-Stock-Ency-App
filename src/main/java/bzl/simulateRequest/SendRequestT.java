@@ -11,12 +11,12 @@ import java.util.concurrent.ExecutorService;
 
 public class SendRequestT implements Runnable {
 
-    private Request request;
+    private String messageBody;
     private String rabbitQ;
 
-    public SendRequestT(Request request, String rabbitQ)
+    public SendRequestT(String messageBody, String rabbitQ)
     {
-        this.request = request;
+        this.messageBody = messageBody;
         this.rabbitQ = rabbitQ;
     }
 
@@ -24,11 +24,11 @@ public class SendRequestT implements Runnable {
     public void run()
     {
         processCommand();
-        Boolean res = sendRequest(request);
+        Boolean res = sendRequest(messageBody);
         processCommand();
     }
 
-    public Boolean sendRequest(Request request)
+    public Boolean sendRequest(String messageBody)
     {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -38,9 +38,8 @@ public class SendRequestT implements Runnable {
              Channel channel = connection.createChannel())
         {
             channel.queueDeclare(rabbitQ, true, false, false, null);
-            String message = request.toString();
-            channel.basicPublish("", rabbitQ, null, message.getBytes(StandardCharsets.UTF_8));
-            System.out.println(" [x] Sent '" + message + "'");
+            channel.basicPublish("", rabbitQ, null, messageBody.getBytes(StandardCharsets.UTF_8));
+            System.out.println(" [x] Sent '" + messageBody + "'");
 
         } catch(Exception e)
         {

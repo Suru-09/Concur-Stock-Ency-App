@@ -1,14 +1,11 @@
-package bzl.consumeRequest;
+package bzl.consumer;
 
 import bzl.processRequest.RequestGate;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class RequestConsumer extends DefaultConsumer {
     RequestGate requestGate;
