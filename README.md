@@ -64,13 +64,18 @@
 -------------
 
 
-- modify SendRequest so that each thread has only 1 channel
-- modify SendRequest so that it has only one connection for one Rabbit Queue.
-- implement Sell and Buy stocks in ProcessRequest(bzl).
-- modify main so that consume is not an infinite loop.
-- do the closing of the channels/connections at the end of main.
-- also write back the new content for the companies in its json.
-- make ConsumerRequest return on callback true/false for the processed request of the user.
-- solve the serialising issues with futures when calling get() instead of isDone().
+- [] modify SendRequest so that each thread has only 1 channel 
+- [] modify SendRequest so that it has only one connection for one Rabbit Queue.
+- [] implement Sell and Buy stocks in ProcessRequest(bzl).
+- [] also write back the new content for the companies in its json.
+- [x] make ConsumerRequest return on callback true/false for the processed request of the user.
+- [x] solve the serialising issues with futures when calling get() instead of isDone().
+- [x] add Log4J depdencies and initial configuration.
+- [] configure logs so that we have a clear order of processing things,
+- [] add Object Pool for both Connections and Channels
+- [] modify requestGenerator so that we have ids for each user
+- [] create UserRepository and users in a json file
+- [] create matching class
+- [] create a new event for Client Response once the Request has been processed
 
 
