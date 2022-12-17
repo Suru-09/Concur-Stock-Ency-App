@@ -2,6 +2,7 @@ package bzl.processRequest;
 
 import entity.Request;
 import entity.RequestDeserializer;
+import entity.RequestResponse;
 import exceptions.RepoException;
 import jdk.swing.interop.SwingInterOpUtils;
 import repo.GSONRepo;
@@ -47,7 +48,7 @@ public class RequestGate {
 
     void sendRequestsForProcessing()
     {
-        List<Future<Boolean>> futureList = new ArrayList<Future<Boolean>>();
+        List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
         while (start) {
             Thread.onSpinWait();
 
@@ -61,7 +62,7 @@ public class RequestGate {
                 }
             }
 
-            for(Future<Boolean> f: futureList)
+            for(Future<RequestResponse> f: futureList)
             {
                 if(f.isDone()) {
                     System.out.println("Request has been processed!");

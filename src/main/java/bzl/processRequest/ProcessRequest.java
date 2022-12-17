@@ -3,13 +3,14 @@ package bzl.processRequest;
 import entity.Company;
 import entity.Request;
 import entity.RequestDeserializer;
+import entity.RequestResponse;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-public class ProcessRequest implements Callable<Boolean> {
+public class ProcessRequest implements Callable<RequestResponse> {
 
     private GSONRepo repo;
     private Request request;
@@ -21,7 +22,7 @@ public class ProcessRequest implements Callable<Boolean> {
     }
 
 
-    public boolean sellStocks() throws RepoException {
+    public RequestResponse sellStocks() throws RepoException {
         Long companyId = request.getCompanyId();
         Company comp = repo.get(companyId);
 
@@ -35,11 +36,11 @@ public class ProcessRequest implements Callable<Boolean> {
             repo.update(comp);
         }
         System.out.println(comp);
-        return true;
+        return new RequestResponse(true, 1L, 1L);
     }
 
 
-    public boolean buyStocks() throws RepoException {
+    public RequestResponse buyStocks() throws RepoException {
         Long companyId = request.getCompanyId();
         Company comp = repo.get(companyId);
 
@@ -55,11 +56,11 @@ public class ProcessRequest implements Callable<Boolean> {
         }
         System.out.println(comp);
 
-        return true;
+        return new RequestResponse(true, 1L, 1L);
     }
 
     @Override
-    public Boolean call() {
+    public RequestResponse call() {
 //        try {
 //            Thread.sleep(500);
 //        }
@@ -68,10 +69,10 @@ public class ProcessRequest implements Callable<Boolean> {
 //            e.printStackTrace();
 //        }
 
-        boolean result = false;
+        RequestResponse response = new RequestResponse(false, -1L, -1L);
         if (request.getRequestType() == Request.RequestType.BUY) {
             try {
-                result = buyStocks();
+                response = buyStocks();
             }
             catch(RepoException e)
             {
@@ -82,13 +83,13 @@ public class ProcessRequest implements Callable<Boolean> {
         else if(request.getRequestType() == Request.RequestType.SELL)
         {
             try {
-                result = sellStocks();
+                response = sellStocks();
             }
             catch(RepoException e)
             {
                 e.printStackTrace();
             }
         }
-        return result;
+        return response;
     }
 }
