@@ -9,19 +9,28 @@ import entity.Company;
 import entity.Request;
 import entity.RequestGenerator;
 import exceptions.RepoException;
+import org.apache.logging.log4j.LogManager;
+
 import repo.GSONRepo;
 
-// RabbitMQ
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.logging.log4j.Logger;
+
+
 public class Main {
+
+    static Logger log = LogManager.getLogger(Main.class.getName());
+
     public static void main(String[] argv) throws IOException, TimeoutException, RepoException {
+
+        log.error("I am doing things");
+
         GSONRepo repo = GSONRepo.getInstance();
         try {
             repo.loadData();
@@ -29,11 +38,12 @@ public class Main {
             ex.printStackTrace();
         }
 
+        log.error("I am doing things");
+
         ExecutorService threadExec = Executors.newCachedThreadPool();
         RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
 
-        List<Request> myReqList = reqGenerator.RequestPullGenerator(100);
-
+        List<Request> myReqList = reqGenerator.RequestPullGenerator(10);
 
         for(Request someReq: myReqList)
         {
@@ -45,8 +55,5 @@ public class Main {
         Channel channel = connection.createChannel();
         RequestGate reqGate = new RequestGate(threadExec);
         RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", reqGate);
-
-//        threadExec.shutdown();
-//        while(!threadExec.isTerminated()) {}
     }
 }

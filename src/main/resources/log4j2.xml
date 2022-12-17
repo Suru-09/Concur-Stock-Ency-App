@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <!-- Define a File appender that writes to a file on the local filesystem -->
+        <File name="LogToFile" fileName="./src/main/resources/App.log">
+            <PatternLayout>
+                <!-- Use the "%d %p %c{1.} [%t] %m%n" pattern to format log messages -->
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <!-- Define a logger that writes log messages to the File appender -->
+        <Logger name="Main" level="debug" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+        </Logger>
+        <!-- Set the root logger to log messages at the ERROR level or higher -->
+        <Root level="error">
+            <AppenderRef ref="LogToFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
