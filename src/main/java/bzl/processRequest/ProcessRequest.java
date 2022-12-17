@@ -24,7 +24,9 @@ public class ProcessRequest implements Callable<RequestResponse> {
 
     public RequestResponse sellStocks() throws RepoException {
         Long companyId = request.getCompanyId();
+        Long clientId = request.getClientId();
         Company comp = repo.get(companyId);
+        Boolean isSuccessful = false;
 
         // TO DO: dumb matching we have to improve here
         if ( request.getPrice() < comp.getStock().getPrice() )
@@ -34,15 +36,18 @@ public class ProcessRequest implements Callable<RequestResponse> {
             companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
             comp.setStock(companyStock);
             repo.update(comp);
+            isSuccessful = true;
         }
         System.out.println(comp);
-        return new RequestResponse(true, 1L, 1L);
+        return new RequestResponse(isSuccessful, companyId, clientId);
     }
 
 
     public RequestResponse buyStocks() throws RepoException {
         Long companyId = request.getCompanyId();
+        Long clientId = request.getClientId();
         Company comp = repo.get(companyId);
+        Boolean isSuccessful = false;
 
         // TO DO: dumb matching we have to improve here
         if ( request.getNoOfStocks() < comp.getStockCount() &&
@@ -55,8 +60,7 @@ public class ProcessRequest implements Callable<RequestResponse> {
             repo.update(comp);
         }
         System.out.println(comp);
-
-        return new RequestResponse(true, 1L, 1L);
+        return new RequestResponse(isSuccessful, companyId, clientId);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package bzl.processRequest;
 
+import bzl.simulateRequest.SendRequestT;
 import entity.Request;
 import entity.RequestDeserializer;
 import entity.RequestResponse;
@@ -68,6 +69,9 @@ public class RequestGate {
                     System.out.println("Request has been processed!");
                     try {
                         System.out.println(f.get());
+                        SendRequestT responseEvent = new SendRequestT(f.get().toString(), "Client");
+                        executorService.submit(responseEvent);
+
                     }
                     catch (InterruptedException | ExecutionException i)
                     {

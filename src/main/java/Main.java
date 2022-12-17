@@ -1,5 +1,6 @@
 
 import bzl.consumer.RequestConsumer;
+import bzl.consumer.ResponseConsumer;
 import bzl.processRequest.RequestGate;
 import bzl.simulateRequest.SendRequestT;
 import com.rabbitmq.client.Channel;
@@ -36,7 +37,6 @@ public class Main {
 
         for(Request someReq: myReqList)
         {
-            Channel channel = connection.createChannel();
             SendRequestT work = new SendRequestT(someReq.toString(), "Concurr");
             threadExec.submit(work);
         }
@@ -45,6 +45,10 @@ public class Main {
         Channel channel = connection.createChannel();
         RequestGate reqGate = new RequestGate(threadExec);
         RequestConsumer reqConsumer = new RequestConsumer(channel, "Concurr", reqGate);
+
+        Connection connection2 = new ConnectionFactory().newConnection();
+        Channel channel2 = connection2.createChannel();
+        ResponseConsumer respConsumer = new ResponseConsumer(channel2, "Client");
 
 //        threadExec.shutdown();
 //        while(!threadExec.isTerminated()) {}
