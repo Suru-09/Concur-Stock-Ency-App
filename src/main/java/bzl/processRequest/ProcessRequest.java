@@ -2,6 +2,7 @@ package bzl.processRequest;
 
 import entity.Company;
 import entity.Request;
+import entity.Matcher;
 import entity.RequestDeserializer;
 import exceptions.RepoException;
 import repo.GSONRepo;
@@ -25,12 +26,11 @@ public class ProcessRequest implements Callable<Boolean> {
         Long companyId = request.getCompanyId();
         Company comp = repo.get(companyId);
 
-        // TO DO: dumb matching we have to improve here
-        if ( request.getPrice() < comp.getStock().getPrice() )
+        if ( Matcher.priceCompare(comp, request) )
         {
             comp.setStockCount(comp.getStockCount() + request.getNoOfStocks());
             var companyStock = comp.getStock();
-            companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
+            companyStock.setPrice((float) (companyStock.getPrice() - Matcher.calculatePrice(request)));
             comp.setStock(companyStock);
             repo.update(comp);
         }
@@ -43,13 +43,11 @@ public class ProcessRequest implements Callable<Boolean> {
         Long companyId = request.getCompanyId();
         Company comp = repo.get(companyId);
 
-        // TO DO: dumb matching we have to improve here
-        if ( request.getNoOfStocks() < comp.getStockCount() &&
-            request.getPrice() < comp.getStock().getPrice() )
+        if ( Matcher.priceCompare(comp, request) && request.getNoOfStocks() < comp.getStockCount() )
         {
             comp.setStockCount(comp.getStockCount() - request.getNoOfStocks());
             var companyStock = comp.getStock();
-            companyStock.setPrice((float) (companyStock.getPrice() + 1.15));
+            companyStock.setPrice((float) (companyStock.getPrice() + Matcher.calculatePrice(request)));
             comp.setStock(companyStock);
             repo.update(comp);
         }
