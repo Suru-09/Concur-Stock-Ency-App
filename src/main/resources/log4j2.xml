@@ -2,7 +2,7 @@
 <Configuration>
     <Appenders>
         <!-- Define a File appender that writes to a file on the local filesystem -->
-        <File name="LogToFile" fileName="./src/main/resources/App.log">
+        <File append="false" name="LogToFile" fileName="./src/main/resources/App.log">
             <PatternLayout>
                 <!-- Use the "%d %p %c{1.} [%t] %m%n" pattern to format log messages -->
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
