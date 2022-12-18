@@ -3,6 +3,7 @@ package bzl.processRequest;
 import entity.Company;
 import entity.Request;
 import entity.RequestDeserializer;
+import entity.ValueCalculator;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
@@ -13,11 +14,13 @@ public class ProcessRequest implements Callable<Boolean> {
 
     private GSONRepo repo;
     private Request request;
+    private ValueCalculator valCalc;
 
-    public ProcessRequest(Request request, GSONRepo repo)
+    public ProcessRequest(Request request, GSONRepo repo, ValueCalculator valCalc)
     {
         this.repo = repo;
         this.request = request;
+        this.valCalc = valCalc;
     }
 
 
@@ -28,11 +31,7 @@ public class ProcessRequest implements Callable<Boolean> {
         // TO DO: dumb matching we have to improve here
         if ( request.getPrice() < comp.getStock().getPrice() )
         {
-            comp.setStockCount(comp.getStockCount() + request.getNoOfStocks());
-            var companyStock = comp.getStock();
-            companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
-            comp.setStock(companyStock);
-            repo.update(comp);
+            valCalc.updatePrice(this.repo, this.repo.get(companyId), this.request);
         }
         System.out.println(comp);
         return true;
@@ -47,11 +46,7 @@ public class ProcessRequest implements Callable<Boolean> {
         if ( request.getNoOfStocks() < comp.getStockCount() &&
             request.getPrice() < comp.getStock().getPrice() )
         {
-            comp.setStockCount(comp.getStockCount() - request.getNoOfStocks());
-            var companyStock = comp.getStock();
-            companyStock.setPrice((float) (companyStock.getPrice() + 1.15));
-            comp.setStock(companyStock);
-            repo.update(comp);
+            valCalc.updatePrice(this.repo, this.repo.get(companyId), this.request);
         }
         System.out.println(comp);
 

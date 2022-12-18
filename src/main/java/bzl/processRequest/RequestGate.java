@@ -2,6 +2,7 @@ package bzl.processRequest;
 
 import entity.Request;
 import entity.RequestDeserializer;
+import entity.ValueCalculator;
 import exceptions.RepoException;
 import jdk.swing.interop.SwingInterOpUtils;
 import repo.GSONRepo;
@@ -16,6 +17,7 @@ public class RequestGate {
     private GSONRepo repo;
     private ExecutorService executorService;
     private volatile boolean start;
+    private ValueCalculator valueCalc;
 
     public RequestGate(ExecutorService executor) {
         requestQ = new ConcurrentLinkedQueue<Request>();
@@ -28,6 +30,7 @@ public class RequestGate {
         }
         executorService = executor;
         this.start = false;
+        this.valueCalc = new ValueCalculator(this.repo);
     }
 
     public void addRequest(String req)
@@ -57,7 +60,7 @@ public class RequestGate {
                 {
                     System.out.println("Following request has been sent for processing: ");
                     System.out.println(r);
-                    futureList.add(executorService.submit(new ProcessRequest(r, repo)));
+                    futureList.add(executorService.submit(new ProcessRequest(r, repo, this.valueCalc)));
                 }
             }
 
