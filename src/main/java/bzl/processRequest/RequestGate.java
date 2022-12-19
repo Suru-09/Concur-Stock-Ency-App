@@ -1,11 +1,12 @@
 package bzl.processRequest;
 
-import bzl.simulateRequest.SendRequestT;
 import entity.Request;
 import entity.RequestDeserializer;
 import entity.RequestResponse;
 import exceptions.RepoException;
 import jdk.swing.interop.SwingInterOpUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import repo.GSONRepo;
 
 import java.util.*;
@@ -17,9 +18,10 @@ public class RequestGate {
     private Map<Long, Boolean> processingMap;
     private GSONRepo repo;
     private ExecutorService executorService;
-    private volatile boolean start;
 
-    public RequestGate(ExecutorService executor) {
+    private static final Logger log = LogManager.getLogger("Main");
+
+    public RequestGate() {
         requestQ = new ConcurrentLinkedQueue<Request>();
         processingMap = new HashMap<Long, Boolean>();
         try {
@@ -28,59 +30,50 @@ public class RequestGate {
         catch(RepoException e) {
             e.printStackTrace();
         }
-        executorService = executor;
-        this.start = false;
+        executorService = Executors.newFixedThreadPool(10);
     }
 
     public void addRequest(String req)
     {
+        System.out.println("Adaug request");
         var request = RequestDeserializer.toRequest(req);
         requestQ.add(request);
     }
 
-    public void start()
-    {
-        if(true)
-        {
-            this.start = true;
-            sendRequestsForProcessing();
-        }
-    }
+    public void sendRequestsForProcessing() {
 
-    void sendRequestsForProcessing()
-    {
         List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
-        while (start) {
-            Thread.onSpinWait();
+        CompletionService<RequestResponse> completionService =
+                new ExecutorCompletionService<RequestResponse>(executorService);
 
-            for(Request r : requestQ)
-            {
-                if (!processingMap.containsKey(r.getCompanyId()))
-                {
-                    System.out.println("Following request has been sent for processing: ");
-                    System.out.println(r);
-                    futureList.add(executorService.submit(new ProcessRequest(r, repo)));
-                }
+        int wtf = 0;
+
+        for (Request r : requestQ) {
+            if (!processingMap.containsKey(r.getCompanyId())) {
+                System.out.println("Following request has been sent for processing: ");
+                System.out.println(r);
+                log.info("Following request has been sent for processing: ");
+                log.info(r);
+                futureList.add(completionService.submit(new ProcessRequest(r, repo)));
             }
-
-            for(Future<RequestResponse> f: futureList)
-            {
-                if(f.isDone()) {
-                    System.out.println("Request has been processed!");
-                    try {
-                        System.out.println(f.get());
-                        SendRequestT responseEvent = new SendRequestT(f.get().toString(), "Client");
-                        executorService.submit(responseEvent);
-
-                    }
-                    catch (InterruptedException | ExecutionException i)
-                    {
-                        i.printStackTrace();
-                    }
-                    futureList.remove(f);
-                }
-            }
-            System.out.println(start);
         }
+
+        executorService.shutdown();
+
+        int received = 0;
+        while(received < futureList.size()) {
+            try {
+                System.out.println("Request has been processed");
+                log.info("Request has been processed");
+                Future<RequestResponse> resultFuture = completionService.take();
+                RequestResponse result = resultFuture.get();
+                received ++;
+                futureList.remove(resultFuture);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
