@@ -75,7 +75,7 @@
 
 ## **Class diagram**
 
-![ClassDiagram](docs/ArchitectureUML.png)
+![ClassDiagram](docs/image.png)
 
 
 ## TODO
