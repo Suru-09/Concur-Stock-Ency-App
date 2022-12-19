@@ -19,7 +19,7 @@ public class GSONRepo extends AbstractRepository<Long, Company>{
         super.elems.clear();
         try {
             Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/stocks/companies.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/jsons/companies.json"));
             Company[] companyList = gson.fromJson(reader, Company[].class);
             reader.close();
 

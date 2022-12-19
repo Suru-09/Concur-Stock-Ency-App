@@ -1,5 +1,7 @@
 package bzl.event;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rabbitMQ.ChannelsPool;
 
 import java.io.IOException;
@@ -11,6 +13,8 @@ public class RabbitEventT implements Runnable {
     private String messageBody;
     private String rabbitQ;
     private ChannelsPool channelsPool;
+
+    private static final Logger log = LogManager.getLogger("Main");
 
     public RabbitEventT(String messageBody, String rabbitQ, ChannelsPool channelsPool)
     {
@@ -39,7 +43,8 @@ public class RabbitEventT implements Runnable {
             channelsPool.release(channel);
             return false;
         }
-        System.out.println(" [x] Sent '" + messageBody + "'");
+        //System.out.println(" [x] Sent '" + messageBody + "'");
+        //log.info(" [x] Sent '" + messageBody + "'");
         channelsPool.release(channel);
         return true;
     }

@@ -1,0 +1,202 @@
+2022-12-20 00:32:47,363 ERROR Main [main] Size of my requests list:
+2022-12-20 00:32:47,365 ERROR Main [main] 20
+2022-12-20 00:32:48,226 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,226 INFO Main [pool-5-thread-1] {
+ price: 73,
+ noOfStocks: 10,
+ companyId: 3,
+ clientId: 6,
+ requestType: BUY
+}
+2022-12-20 00:32:48,227 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,227 INFO Main [pool-5-thread-1] {
+ price: 81,
+ noOfStocks: 4,
+ companyId: 9,
+ clientId: 10,
+ requestType: BUY
+}
+2022-12-20 00:32:48,227 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] {
+ price: 79,
+ noOfStocks: 4,
+ companyId: 8,
+ clientId: 9,
+ requestType: BUY
+}
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] {
+ price: 31,
+ noOfStocks: 6,
+ companyId: 7,
+ clientId: 9,
+ requestType: BUY
+}
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] {
+ price: 87,
+ noOfStocks: 16,
+ companyId: 11,
+ clientId: 8,
+ requestType: BUY
+}
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,228 INFO Main [pool-5-thread-1] {
+ price: 21,
+ noOfStocks: 5,
+ companyId: 10,
+ clientId: 2,
+ requestType: BUY
+}
+2022-12-20 00:32:48,229 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,229 INFO Main [pool-5-thread-1] {
+ price: 6,
+ noOfStocks: 13,
+ companyId: 1,
+ clientId: 10,
+ requestType: BUY
+}
+2022-12-20 00:32:48,229 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,229 INFO Main [pool-5-thread-1] {
+ price: 59,
+ noOfStocks: 17,
+ companyId: 6,
+ clientId: 9,
+ requestType: BUY
+}
+2022-12-20 00:32:48,229 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,229 INFO Main [pool-5-thread-1] {
+ price: 85,
+ noOfStocks: 7,
+ companyId: 4,
+ clientId: 5,
+ requestType: BUY
+}
+2022-12-20 00:32:48,230 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,230 INFO Main [pool-5-thread-1] {
+ price: 50,
+ noOfStocks: 18,
+ companyId: 12,
+ clientId: 9,
+ requestType: BUY
+}
+2022-12-20 00:32:48,230 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,230 INFO Main [pool-5-thread-1] {
+ price: 99,
+ noOfStocks: 14,
+ companyId: 2,
+ clientId: 1,
+ requestType: BUY
+}
+2022-12-20 00:32:48,290 INFO Main [pool-5-thread-1] Request has been processed for company id: [3] and client id: [6]
+2022-12-20 00:32:48,292 INFO Main [pool-5-thread-1] Request has been processed for company id: [9] and client id: [10]
+2022-12-20 00:32:48,292 INFO Main [pool-5-thread-1] Request has been processed for company id: [8] and client id: [9]
+2022-12-20 00:32:48,292 INFO Main [pool-5-thread-1] Request has been processed for company id: [7] and client id: [9]
+2022-12-20 00:32:48,293 INFO Main [pool-5-thread-1] Request has been processed for company id: [11] and client id: [8]
+2022-12-20 00:32:48,293 INFO Main [pool-5-thread-1] Request has been processed for company id: [10] and client id: [2]
+2022-12-20 00:32:48,293 INFO Main [pool-5-thread-1] Request has been processed for company id: [1] and client id: [10]
+2022-12-20 00:32:48,293 INFO Main [pool-5-thread-1] Request has been processed for company id: [6] and client id: [9]
+2022-12-20 00:32:48,293 INFO Main [pool-5-thread-1] Request has been processed for company id: [4] and client id: [5]
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] Request has been processed for company id: [12] and client id: [9]
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] Request has been processed for company id: [2] and client id: [1]
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] {
+ price: 8,
+ noOfStocks: 7,
+ companyId: 7,
+ clientId: 9,
+ requestType: BUY
+}
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] {
+ price: 53,
+ noOfStocks: 13,
+ companyId: 10,
+ clientId: 6,
+ requestType: BUY
+}
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] Request has been processed for company id: [7] and client id: [9]
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,294 INFO Main [pool-5-thread-1] {
+ price: 85,
+ noOfStocks: 18,
+ companyId: 7,
+ clientId: 7,
+ requestType: BUY
+}
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Request has been processed for company id: [10] and client id: [6]
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Request has been processed for company id: [7] and client id: [7]
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] {
+ price: 23,
+ noOfStocks: 2,
+ companyId: 4,
+ clientId: 8,
+ requestType: BUY
+}
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] {
+ price: 64,
+ noOfStocks: 7,
+ companyId: 12,
+ clientId: 7,
+ requestType: BUY
+}
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Request has been processed for company id: [4] and client id: [8]
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Request has been processed for company id: [12] and client id: [7]
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] {
+ price: 10,
+ noOfStocks: 2,
+ companyId: 1,
+ clientId: 1,
+ requestType: BUY
+}
+2022-12-20 00:32:48,295 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,296 INFO Main [pool-5-thread-1] {
+ price: 98,
+ noOfStocks: 10,
+ companyId: 12,
+ clientId: 3,
+ requestType: BUY
+}
+2022-12-20 00:32:48,296 INFO Main [pool-5-thread-1] Request has been processed for company id: [1] and client id: [1]
+2022-12-20 00:32:48,296 INFO Main [pool-5-thread-1] Request has been processed for company id: [12] and client id: [3]
+2022-12-20 00:32:48,296 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,296 INFO Main [pool-5-thread-1] {
+ price: 29,
+ noOfStocks: 1,
+ companyId: 4,
+ clientId: 5,
+ requestType: BUY
+}
+2022-12-20 00:32:48,354 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-20 00:32:48,354 INFO Main [pool-5-thread-1] {
+ price: 4,
+ noOfStocks: 11,
+ companyId: 9,
+ clientId: 8,
+ requestType: BUY
+}
+2022-12-20 00:32:48,354 INFO Main [pool-5-thread-1] Request has been processed for company id: [4] and client id: [5]
+2022-12-20 00:32:48,354 INFO Main [pool-5-thread-1] Request has been processed for company id: [9] and client id: [8]
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-9] Client response: RequestResponse{isSuccessful=true, companyId=7, clientId=9}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-12] Client response: RequestResponse{isSuccessful=false, companyId=7, clientId=7}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-10] Client response: RequestResponse{isSuccessful=false, companyId=10, clientId=6}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-11] Client response: RequestResponse{isSuccessful=true, companyId=10, clientId=2}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-8] Client response: RequestResponse{isSuccessful=false, companyId=11, clientId=8}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-7] Client response: RequestResponse{isSuccessful=false, companyId=12, clientId=3}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-9] Client response: RequestResponse{isSuccessful=false, companyId=1, clientId=10}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-10] Client response: RequestResponse{isSuccessful=false, companyId=12, clientId=7}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-9] Client response: RequestResponse{isSuccessful=true, companyId=2, clientId=1}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-13] Client response: RequestResponse{isSuccessful=true, companyId=4, clientId=8}
+2022-12-20 00:32:48,655 INFO Main [pool-2-thread-14] Client response: RequestResponse{isSuccessful=true, companyId=3, clientId=6}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-18] Client response: RequestResponse{isSuccessful=false, companyId=9, clientId=10}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-16] Client response: RequestResponse{isSuccessful=false, companyId=1, clientId=1}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-10] Client response: RequestResponse{isSuccessful=true, companyId=4, clientId=5}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-23] Client response: RequestResponse{isSuccessful=true, companyId=7, clientId=9}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-20] Client response: RequestResponse{isSuccessful=true, companyId=6, clientId=9}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-22] Client response: RequestResponse{isSuccessful=false, companyId=12, clientId=9}
+2022-12-20 00:32:48,656 INFO Main [pool-2-thread-21] Client response: RequestResponse{isSuccessful=false, companyId=8, clientId=9}
+2022-12-20 00:32:48,718 INFO Main [pool-2-thread-25] Client response: RequestResponse{isSuccessful=true, companyId=4, clientId=5}
+2022-12-20 00:32:48,718 INFO Main [pool-2-thread-26] Client response: RequestResponse{isSuccessful=true, companyId=9, clientId=8}

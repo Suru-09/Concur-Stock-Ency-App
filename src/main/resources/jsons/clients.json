@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Alex",
+    "address": "Strada Manguriei",
+    "budget": 150
+  },
+  {
+    "id": 2,
+    "name": "Beth",
+    "address": "Avenue des Fleurs",
+    "budget": 200
+  },
+  {
+    "id": 3,
+    "name": "Charlie",
+    "address": "Calle de la Luna",
+    "budget": 250
+  },
+  {
+    "id": 4,
+    "name": "Diana",
+    "address": "Ulitsa Solnechnaya",
+    "budget": 300
+  },
+  {
+    "id": 5,
+    "name": "Evan",
+    "address": "Rua das Estrelas",
+    "budget": 350
+  },
+  {
+    "id": 6,
+    "name": "Fiona",
+    "address": "Travessa da Primavera",
+    "budget": 400
+  },
+  {
+    "id": 7,
+    "name": "Greta",
+    "address": "Plaza del Verano",
+    "budget": 450
+  },
+  {
+    "id": 8,
+    "name": "Henry",
+    "address": "Allee des Champs",
+    "budget": 500
+  },
+  {
+    "id": 9,
+    "name": "Ivy",
+    "address": "Paseo del Otoño",
+    "budget": 550
+  },
+  {
+    "id": 10,
+    "name": "Jack",
+    "address": "Viale dell'Inverno",
+    "budget": 600
+  }
+]
