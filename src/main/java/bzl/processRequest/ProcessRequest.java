@@ -2,6 +2,7 @@ package bzl.processRequest;
 
 import entity.Company;
 import entity.Request;
+import entity.Matcher;
 import entity.RequestDeserializer;
 import entity.ValueCalculator;
 import entity.RequestResponse;
@@ -29,17 +30,12 @@ public class ProcessRequest implements Callable<RequestResponse> {
         Long companyId = request.getCompanyId();
         Long clientId = request.getClientId();
         Company comp = repo.get(companyId);
-        Boolean isSuccessful = false;
+        boolean isSuccessful = false;
 
-        // TO DO: dumb matching we have to improve here
-        if ( request.getPrice() < comp.getStock().getPrice() )
+        if ( Matcher.priceCompare(comp, request) )
         {
             valCalc.updatePrice(this.repo, this.repo.get(companyId), this.request);
             comp.setStockCount(comp.getStockCount() + request.getNoOfStocks());
-            var companyStock = comp.getStock();
-            companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
-            comp.setStock(companyStock);
-            repo.update(comp);
             isSuccessful = true;
         }
         System.out.println(comp);
@@ -55,11 +51,10 @@ public class ProcessRequest implements Callable<RequestResponse> {
 
         System.out.println("IN BUY STOCKS");
 
-        // TO DO: dumb matching we have to improve here
-        if ( request.getNoOfStocks() < comp.getStockCount() &&
-            request.getPrice() < comp.getStock().getPrice() )
+        if ( Matcher.priceCompare(comp, request) && request.getNoOfStocks() < comp.getStockCount() )
         {
             valCalc.updatePrice(this.repo, this.repo.get(companyId), this.request);
+            isSuccessful = true;
         }
         System.out.println(comp);
         return new RequestResponse(isSuccessful, companyId, clientId);
