@@ -49,6 +49,8 @@ public class ProcessRequest implements Callable<RequestResponse> {
         Company comp = repo.get(companyId);
         Boolean isSuccessful = false;
 
+        System.out.println("IN BUY STOCKS");
+
         // TO DO: dumb matching we have to improve here
         if ( request.getNoOfStocks() < comp.getStockCount() &&
             request.getPrice() < comp.getStock().getPrice() )

@@ -16,10 +16,7 @@ import repo.GSONRepo;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 import org.apache.logging.log4j.Logger;
 
@@ -28,15 +25,7 @@ public class Main {
 
     static Logger log = LogManager.getLogger(Main.class.getName());
     private static final String sendRequestRabbitQ = "Concurr";
-    static final Connection sendRequestConnection;
 
-    static {
-        try {
-            sendRequestConnection = new ConnectionFactory().newConnection();
-        } catch (IOException | TimeoutException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static void main(String[] argv) throws IOException, TimeoutException, RepoException
     {
@@ -47,9 +36,13 @@ public class Main {
             ex.printStackTrace();
         }
 
-        RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
+        Connection sendRequestConnection = new ConnectionFactory().newConnection();
         ChannelsPool channelsPool = new ChannelsPool(sendRequestConnection);
-        List<Request> myReqList = reqGenerator.RequestPullGenerator(1500);
+        RequestGate reqGate = RequestGate.getInstance();
+
+        RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
+        List<Request> myReqList = reqGenerator.RequestPullGenerator(10);
+        log.error("Size of my requests list:");
         log.error(myReqList.size());
 
 
@@ -58,10 +51,30 @@ public class Main {
         {
             RabbitEventT work = new RabbitEventT(someReq.toString(), sendRequestRabbitQ, channelsPool);
             sendRequestThread.submit(work);
+        }
 
-            RequestGate reqGate = new RequestGate();
+        int len = (myReqList.size() / 100) > 10 ? myReqList.size() / 100 : 10;
+        System.out.println("LEN IS" + len);
+        for(int i = 0; i < len; ++i)
+        {
             RequestConsumer reqConsumer = new RequestConsumer(channelsPool, sendRequestRabbitQ, reqGate);
         }
+
+        ScheduledExecutorService schedExec = Executors.newSingleThreadScheduledExecutor();
+        schedExec.scheduleWithFixedDelay(
+                new Runnable()
+                {
+                    public void run()
+                    {
+                        try {
+                            System.out.println("HHHHHHHEEEEEEEEERRRRREEEEEE");
+                            reqGate.sendRequestsForProcessing();
+                        } catch (ExecutionException | InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }, 1, 5, TimeUnit.SECONDS);
+
 
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
         System.out.printf("%-15s \t %-15s \t %-15s \t %s\n", "Name", "State", "Priority", "isDaemon");
@@ -70,19 +83,15 @@ public class Main {
         }
     }
 
-    public static void awaitTerminationAfterShutdown(ExecutorService threadPool, Connection connection) throws IOException {
+    public static void awaitTerminationAfterShutdown(ExecutorService threadPool) throws IOException {
         threadPool.shutdown();
         try {
             if (!threadPool.awaitTermination(5, TimeUnit.MINUTES)) {
-                connection.close();
                 threadPool.shutdownNow();
             }
         } catch (InterruptedException ex) {
             threadPool.shutdownNow();
-            connection.close();
             Thread.currentThread().interrupt();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 }

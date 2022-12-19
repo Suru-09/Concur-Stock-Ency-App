@@ -7,6 +7,7 @@ import rabbitMQ.ChannelsPool;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
 public class RequestConsumer extends DefaultConsumer {
@@ -35,8 +36,12 @@ public class RequestConsumer extends DefaultConsumer {
                                Envelope envelope,
                                AMQP.BasicProperties properties,
                                byte[] body) throws IOException {
-        requestGate.addRequest(new String(body, StandardCharsets.UTF_8));
-        requestGate.sendRequestsForProcessing();
+        try {
+            requestGate.addRequest(new String(body, StandardCharsets.UTF_8));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         var channel = super.getChannel();
         channel.basicAck(envelope.getDeliveryTag(), false);
         channelsPool.release(channel);
