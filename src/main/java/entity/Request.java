@@ -1,6 +1,7 @@
 package entity;
 
 public class Request {
+
     public enum RequestType {
         BUY,
         SELL

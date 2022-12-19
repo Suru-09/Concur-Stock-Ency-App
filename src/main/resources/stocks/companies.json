@@ -1,23 +1,122 @@
 [
-  {
-    "id": 1,
-    "name": "Amazon",
-    "address": "Starvation Street",
-    "stockCount": 1500,
-    "stock": {
-      "price": 1.23,
-      "company": ""
-    }
-  },
-
-  {
-    "id" : 2,
-    "name": "Google",
-    "address": "Wolf of whatever",
-    "stockCount" : 10000,
-    "stock": {
-      "price": 420.69,
-      "company": ""
-    }
-  }
+{
+"id": 1,
+"name": "Amazon",
+"address": "Starvation Street",
+"stockCount": 1500,
+"stock": {
+"price": 1.23,
+"company": ""
+}
+},
+{
+"id": 2,
+"name": "Google",
+"address": "Wolf of whatever",
+"stockCount": 10000,
+"stock": {
+"price": 420.69,
+"company": ""
+}
+},
+{
+"id": 3,
+"name": "Microsoft",
+"address": "Microsoft Way",
+"stockCount": 5000,
+"stock": {
+"price": 300.00,
+"company": ""
+}
+},
+{
+"id": 4,
+"name": "Apple",
+"address": "Apple Boulevard",
+"stockCount": 2500,
+"stock": {
+"price": 200.00,
+"company": ""
+}
+},
+{
+"id": 5,
+"name": "Facebook",
+"address": "Facebook Avenue",
+"stockCount": 2000,
+"stock": {
+"price": 150.00,
+"company": ""
+}
+},
+{
+"id": 6,
+"name": "Alibaba",
+"address": "Alibaba Road",
+"stockCount": 4000,
+"stock": {
+"price": 100.00,
+"company": ""
+}
+},
+{
+"id": 7,
+"name": "Intel",
+"address": "Intel Drive",
+"stockCount": 3000,
+"stock": {
+"price": 80.00,
+"company": ""
+}
+},
+{
+"id": 8,
+"name": "IBM",
+"address": "IBM Lane",
+"stockCount": 2500,
+"stock": {
+"price": 70.00,
+"company": ""
+}
+},
+{
+"id": 9,
+"name": "Cisco",
+"address": "Cisco Circle",
+"stockCount": 2000,
+"stock": {
+"price": 60.00,
+"company": ""
+}
+},
+{
+"id": 10,
+"name": "Oracle",
+"address": "Oracle Place",
+"stockCount": 1500,
+"stock": {
+"price": 50.00,
+"company": ""
+}
+},
+{
+"id": 11,
+"name": "Salesforce",
+"address": "Salesforce Way",
+"stockCount": 1000,
+"stock": {
+"price": 40.00,
+"company": ""
+}
+},
+{
+"id": 12,
+"name": "Adobe",
+"address": "Adobe Drive",
+"stockCount": 1000,
+"stock": {
+"price": 30.00,
+"company": ""
+}
+}
 ]

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class GSONRepo extends AbstractRepository<Long, Company>{
 
-    private static GSONRepo instance;
+    private volatile static GSONRepo instance;
 
     public void loadData() throws RepoException
     {
@@ -37,11 +37,16 @@ public class GSONRepo extends AbstractRepository<Long, Company>{
     }
 
     public static GSONRepo getInstance() throws RepoException {
-        if (instance != null)
+        GSONRepo ref = instance;
+        if (instance == null)
         {
-            return instance;
+            synchronized (GSONRepo.class) {
+                ref = instance;
+                if (ref == null) {
+                    instance = ref = new GSONRepo();
+                }
+            }
         }
-        instance = new GSONRepo();
-        return instance;
+        return ref;
     }
 }

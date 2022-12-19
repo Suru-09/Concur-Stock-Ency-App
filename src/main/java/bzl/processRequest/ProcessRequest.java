@@ -3,16 +3,17 @@ package bzl.processRequest;
 import entity.Company;
 import entity.Request;
 import entity.RequestDeserializer;
+import entity.RequestResponse;
 import exceptions.RepoException;
 import repo.GSONRepo;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-public class ProcessRequest implements Callable<Boolean> {
+public class ProcessRequest implements Callable<RequestResponse> {
 
-    private GSONRepo repo;
     private Request request;
+    private GSONRepo repo;
 
     public ProcessRequest(Request request, GSONRepo repo)
     {
@@ -21,9 +22,11 @@ public class ProcessRequest implements Callable<Boolean> {
     }
 
 
-    public boolean sellStocks() throws RepoException {
+    public RequestResponse sellStocks() throws RepoException {
         Long companyId = request.getCompanyId();
+        Long clientId = request.getClientId();
         Company comp = repo.get(companyId);
+        Boolean isSuccessful = false;
 
         // TO DO: dumb matching we have to improve here
         if ( request.getPrice() < comp.getStock().getPrice() )
@@ -33,15 +36,20 @@ public class ProcessRequest implements Callable<Boolean> {
             companyStock.setPrice((float) (companyStock.getPrice() - 1.15));
             comp.setStock(companyStock);
             repo.update(comp);
+            isSuccessful = true;
         }
         System.out.println(comp);
-        return true;
+        return new RequestResponse(isSuccessful, companyId, clientId);
     }
 
 
-    public boolean buyStocks() throws RepoException {
+    public RequestResponse buyStocks() throws RepoException {
         Long companyId = request.getCompanyId();
+        Long clientId = request.getClientId();
         Company comp = repo.get(companyId);
+        Boolean isSuccessful = false;
+
+        System.out.println("IN BUY STOCKS");
 
         // TO DO: dumb matching we have to improve here
         if ( request.getNoOfStocks() < comp.getStockCount() &&
@@ -54,24 +62,16 @@ public class ProcessRequest implements Callable<Boolean> {
             repo.update(comp);
         }
         System.out.println(comp);
-
-        return true;
+        return new RequestResponse(isSuccessful, companyId, clientId);
     }
 
     @Override
-    public Boolean call() {
-//        try {
-//            Thread.sleep(500);
-//        }
-//        catch(InterruptedException e)
-//        {
-//            e.printStackTrace();
-//        }
-
-        boolean result = false;
+    public RequestResponse call() {
+        RequestResponse response = new RequestResponse(false, -1L, -1L);
         if (request.getRequestType() == Request.RequestType.BUY) {
             try {
-                result = buyStocks();
+                System.out.println("BUY STOCK");
+                response = buyStocks();
             }
             catch(RepoException e)
             {
@@ -82,13 +82,14 @@ public class ProcessRequest implements Callable<Boolean> {
         else if(request.getRequestType() == Request.RequestType.SELL)
         {
             try {
-                result = sellStocks();
+                System.out.println("SELL STOCK");
+                response = sellStocks();
             }
             catch(RepoException e)
             {
                 e.printStackTrace();
             }
         }
-        return result;
+        return response;
     }
 }
