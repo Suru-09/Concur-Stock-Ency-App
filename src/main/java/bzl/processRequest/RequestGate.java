@@ -2,6 +2,7 @@ package bzl.processRequest;
 
 import entity.Request;
 import entity.RequestDeserializer;
+import entity.ValueCalculator;
 import entity.RequestResponse;
 import exceptions.RepoException;
 import jdk.swing.interop.SwingInterOpUtils;
@@ -18,6 +19,7 @@ public class RequestGate {
     private static volatile BlockingQueue<Request> requestQ;
     private static volatile Map<Long, Boolean> processingMap;
     private GSONRepo repo;
+    private ValueCalculator valueCalc;
     static volatile List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
 
     private static final Logger log = LogManager.getLogger("Main");
@@ -31,6 +33,7 @@ public class RequestGate {
         catch(RepoException e) {
             e.printStackTrace();
         }
+        this.valueCalc = new ValueCalculator(this.repo);
     }
 
     public static RequestGate getInstance()
