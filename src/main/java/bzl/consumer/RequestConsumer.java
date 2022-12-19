@@ -44,7 +44,6 @@ public class RequestConsumer extends DefaultConsumer {
 
         var channel = super.getChannel();
         channel.basicAck(envelope.getDeliveryTag(), false);
-        channelsPool.release(channel);
     }
 }
 

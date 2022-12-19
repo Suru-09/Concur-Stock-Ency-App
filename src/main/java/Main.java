@@ -41,7 +41,7 @@ public class Main {
         RequestGate reqGate = RequestGate.getInstance();
 
         RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
-        List<Request> myReqList = reqGenerator.RequestPullGenerator(10);
+        List<Request> myReqList = reqGenerator.RequestPullGenerator(10000);
         log.error("Size of my requests list:");
         log.error(myReqList.size());
 
@@ -69,7 +69,7 @@ public class Main {
                     System.out.println("HHHHHHHEEEEEEEEERRRRREEEEEE");
                     reqGate.sendRequestsForProcessing();
                     }
-                }, 5, 4, TimeUnit.SECONDS);
+                }, 500, 50, TimeUnit.MILLISECONDS);
 
 
         Set<Thread> threads = Thread.getAllStackTraces().keySet();

@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 public class RequestGate {
 
     private volatile static RequestGate instance;
-    private static volatile ConcurrentLinkedQueue<Request> requestQ;
+    private static volatile BlockingQueue<Request> requestQ;
     private static volatile Map<Long, Boolean> processingMap;
     private GSONRepo repo;
     static volatile List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
@@ -23,7 +23,7 @@ public class RequestGate {
     private static final Logger log = LogManager.getLogger("Main");
 
     private RequestGate() {
-        requestQ = new ConcurrentLinkedQueue<Request>();
+        requestQ = new LinkedBlockingQueue<Request>();
         processingMap = new ConcurrentHashMap<Long, Boolean>();
         try {
             repo = GSONRepo.getInstance();
@@ -48,18 +48,21 @@ public class RequestGate {
         return ref;
     }
 
-    public synchronized void addRequest(String req) throws InterruptedException {
+    public void addRequest(String req) throws InterruptedException {
         System.out.println("Adaug request");
-        //System.out.println(req);
+        log.info("Adaug request");
         var request = RequestDeserializer.toRequest(req);
-        requestQ.add(request);
+        requestQ.put(request);
     }
 
     public void sendRequestsForProcessing() {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         System.out.println("Size of requestQ: " + requestQ.size());
-        for (Request r : requestQ) {
+        Iterator<Request> iterator = requestQ.iterator();
+        while ( iterator.hasNext() )
+        {
+            var r = iterator.next();
             if (!processingMap.containsKey(r.getCompanyId())) {
                 System.out.println("Following request has been sent for processing: ");
                 System.out.println(r);
@@ -67,49 +70,50 @@ public class RequestGate {
                 log.info(r);
                 futureList.add(executorService.submit(new ProcessRequest(r, repo)));
                 processingMap.put(r.getCompanyId(), true);
-                requestQ.remove(r);
+                iterator.remove();
             }
-            System.out.println("FUTURE LIST len " + futureList.size());
-//            for(Future<RequestResponse> f: futureList)
-//            {
-//                if (f.isDone())
-//                {
-//                    System.out.println("Request has been processed!");
-//                    try {
-//                        RequestResponse resp = (RequestResponse) f.get(2, TimeUnit.SECONDS);
-//                        processingMap.remove(resp.getCompanyId());
-//                        futureList.remove(f);
-//                        processingMap.clear();
-//                    }
-//                    catch (Exception e) {
-//                        System.out.println("MORTII MA-TIII");
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
+
+            for(int i = 0; i < futureList.size(); ++i)
+            {
+                var f = futureList.get(i);
+                //System.out.println(f);
+                if (f.isDone())
+                {
+                    try {
+                        System.out.println("Request has been processed!2");
+                        log.info("Request has been processed!2");
+                        RequestResponse resp = f.get(2, TimeUnit.SECONDS);
+                        processingMap.remove(resp.getCompanyId());
+                        futureList.remove(f);
+                        --i;
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
 
+
         executorService.shutdown();
-        System.out.println("AAAa " + futureList.size());
         for(int i = 0; i < futureList.size(); ++i)
         {
             var f = futureList.get(i);
-            System.out.println(f);
+            //System.out.println(f);
             if (f.isDone())
             {
                 try {
                     System.out.println("Request has been processed!2");
+                    log.info("Request has been processed!2");
                     RequestResponse resp = f.get(2, TimeUnit.SECONDS);
                     processingMap.remove(resp.getCompanyId());
                     futureList.remove(f);
                     --i;
                 }
                 catch (Exception e) {
-                    System.out.println("MORTII MA-TIII");
                     e.printStackTrace();
                 }
             }
         }
-        System.out.println("AAAa " + futureList.size());
     }
 }
