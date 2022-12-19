@@ -39,7 +39,7 @@ public class RabbitEventT implements Runnable {
             channelsPool.release(channel);
             return false;
         }
-        System.out.println(" [x] Sent '" + messageBody + "'");
+        //System.out.println(" [x] Sent '" + messageBody + "'");
         channelsPool.release(channel);
         return true;
     }

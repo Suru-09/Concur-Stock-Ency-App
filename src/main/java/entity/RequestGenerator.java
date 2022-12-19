@@ -11,18 +11,12 @@ public class RequestGenerator {
     private List<Company> companyList;
     public ArrayList<Request> reqList;
 
-    public RequestGenerator(Company[] companies, int nr_clients){
-        this.clientList = new ArrayList<>();
-        initClientList(nr_clients);
-        this.companyList = new ArrayList<Company>(Arrays.asList(companies));
+    public RequestGenerator(Company[] companies, Client[] clients){
+        this.companyList = new ArrayList<>(Arrays.asList(companies));
+        this.clientList = new ArrayList<>(Arrays.asList(clients));
         this.reqList = new ArrayList<>();
     }
 
-    private void initClientList(int nr){
-        for(int i=1; i<=nr; ++i){
-            this.clientList.add(new Client());
-        }
-    }
 
     public ArrayList<Request> RequestPullGenerator(int nrOfRequests){
 

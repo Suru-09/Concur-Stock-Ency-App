@@ -1,13 +1,14 @@
 package bzl.processRequest;
 
+import bzl.event.RabbitEventT;
 import entity.Request;
 import entity.RequestDeserializer;
 import entity.ValueCalculator;
 import entity.RequestResponse;
 import exceptions.RepoException;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rabbitMQ.ChannelsPool;
 import repo.GSONRepo;
 
 import java.util.*;
@@ -20,6 +21,7 @@ public class RequestGate {
     private static volatile Map<Long, Boolean> processingMap;
     private GSONRepo repo;
     private ValueCalculator valueCalc;
+    private static volatile ChannelsPool channelsPool;
     static volatile List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
 
     private static final Logger log = LogManager.getLogger("Main");
@@ -36,7 +38,7 @@ public class RequestGate {
         this.valueCalc = new ValueCalculator(this.repo);
     }
 
-    public static RequestGate getInstance()
+    public static RequestGate getInstance(ChannelsPool channelsPool)
     {
         RequestGate ref = instance;
         if (ref == null)
@@ -44,6 +46,7 @@ public class RequestGate {
             synchronized (RequestGate.class) {
                 ref = instance;
                 if (ref == null) {
+                    RequestGate.channelsPool = channelsPool;
                     instance = ref = new RequestGate();
                 }
             }
@@ -53,7 +56,6 @@ public class RequestGate {
 
     public void addRequest(String req) throws InterruptedException {
         System.out.println("Adaug request");
-        log.info("Adaug request");
         var request = RequestDeserializer.toRequest(req);
         requestQ.put(request);
     }
@@ -71,7 +73,7 @@ public class RequestGate {
                 System.out.println(r);
                 log.info("Following request has been sent for processing: ");
                 log.info(r);
-                futureList.add(executorService.submit(new ProcessRequest(r, repo)));
+                futureList.add(executorService.submit(new ProcessRequest(r, repo, valueCalc)));
                 processingMap.put(r.getCompanyId(), true);
                 iterator.remove();
             }
@@ -85,15 +87,18 @@ public class RequestGate {
     }
 
     private void iterateFutureList() {
+        ExecutorService executorService = Executors.newCachedThreadPool();
         for(int i = 0; i < futureList.size(); ++i)
         {
             var f = futureList.get(i);
             if (f.isDone())
             {
                 try {
-                    System.out.println("Request has been processed!");
-                    log.info("Request has been processed!");
                     RequestResponse resp = f.get(2, TimeUnit.SECONDS);
+                    log.info("Request has been processed for company id: [" + resp.getCompanyId() + "] and client id: [" + resp.getClientId() + "]");
+                    System.out.println("Request has been processed for company id: [" + resp.getCompanyId() + "] and client id: [" + resp.getClientId() + "]");
+                    RabbitEventT event = new RabbitEventT(resp.toString(), "Client", channelsPool);
+                    executorService.submit(event);
                     processingMap.remove(resp.getCompanyId());
                     futureList.remove(f);
                     --i;
@@ -103,5 +108,6 @@ public class RequestGate {
                 }
             }
         }
+        executorService.shutdown();
     }
 }

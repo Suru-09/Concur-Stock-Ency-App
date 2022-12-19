@@ -1,22 +1,46 @@
 package entity;
 
 public class Client extends BaseEntity<Long>{
-    private boolean awaitResponse;
+    private String name;
+    private String address;
+    private Long budget;
 
-    public Client(){
-        this.awaitResponse = false;
+    public Client(String name, String address, Long budget) {
+        this.name = name;
+        this.address = address;
+        this.budget = budget;
     }
 
-    private boolean getAwaitResponse(){
-        return this.awaitResponse;
+    public String getName() {
+        return name;
     }
 
-    private void setAwaitResponse(boolean awaitResponse){
-        this.awaitResponse = awaitResponse;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Long getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Long budget) {
+        this.budget = budget;
     }
 
     @Override
     public String toString() {
-        return "Pending requests : " + awaitResponse;
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", budget=" + budget +
+                '}';
     }
 }
