@@ -73,38 +73,23 @@ public class RequestGate {
                 iterator.remove();
             }
 
-            for(int i = 0; i < futureList.size(); ++i)
-            {
-                var f = futureList.get(i);
-                //System.out.println(f);
-                if (f.isDone())
-                {
-                    try {
-                        System.out.println("Request has been processed!2");
-                        log.info("Request has been processed!2");
-                        RequestResponse resp = f.get(2, TimeUnit.SECONDS);
-                        processingMap.remove(resp.getCompanyId());
-                        futureList.remove(f);
-                        --i;
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            iterateFutureList();
         }
 
 
         executorService.shutdown();
+        iterateFutureList();
+    }
+
+    private void iterateFutureList() {
         for(int i = 0; i < futureList.size(); ++i)
         {
             var f = futureList.get(i);
-            //System.out.println(f);
             if (f.isDone())
             {
                 try {
-                    System.out.println("Request has been processed!2");
-                    log.info("Request has been processed!2");
+                    System.out.println("Request has been processed!");
+                    log.info("Request has been processed!");
                     RequestResponse resp = f.get(2, TimeUnit.SECONDS);
                     processingMap.remove(resp.getCompanyId());
                     futureList.remove(f);

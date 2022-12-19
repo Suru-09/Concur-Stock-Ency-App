@@ -41,7 +41,7 @@ public class Main {
         RequestGate reqGate = RequestGate.getInstance();
 
         RequestGenerator reqGenerator = new RequestGenerator(repo.getAll().toArray(new Company[0]), 10);
-        List<Request> myReqList = reqGenerator.RequestPullGenerator(10000);
+        List<Request> myReqList = reqGenerator.RequestPullGenerator(100);
         log.error("Size of my requests list:");
         log.error(myReqList.size());
 
@@ -53,7 +53,7 @@ public class Main {
             sendRequestThread.submit(work);
         }
 
-        int len = Math.max((myReqList.size() / 100), 10);
+        int len = Math.max((myReqList.size() / 10), 100);
         System.out.println("LEN IS" + len);
         for(int i = 0; i < len; ++i)
         {
