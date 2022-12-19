@@ -53,7 +53,7 @@ public class Main {
             sendRequestThread.submit(work);
         }
 
-        int len = (myReqList.size() / 100) > 10 ? myReqList.size() / 100 : 10;
+        int len = Math.max((myReqList.size() / 100), 10);
         System.out.println("LEN IS" + len);
         for(int i = 0; i < len; ++i)
         {
@@ -66,14 +66,10 @@ public class Main {
                 {
                     public void run()
                     {
-                        try {
-                            System.out.println("HHHHHHHEEEEEEEEERRRRREEEEEE");
-                            reqGate.sendRequestsForProcessing();
-                        } catch (ExecutionException | InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                    System.out.println("HHHHHHHEEEEEEEEERRRRREEEEEE");
+                    reqGate.sendRequestsForProcessing();
                     }
-                }, 1, 5, TimeUnit.SECONDS);
+                }, 5, 4, TimeUnit.SECONDS);
 
 
         Set<Thread> threads = Thread.getAllStackTraces().keySet();

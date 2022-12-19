@@ -12,8 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 public class ProcessRequest implements Callable<RequestResponse> {
 
-    private GSONRepo repo;
     private Request request;
+    private GSONRepo repo;
 
     public ProcessRequest(Request request, GSONRepo repo)
     {
@@ -67,17 +67,10 @@ public class ProcessRequest implements Callable<RequestResponse> {
 
     @Override
     public RequestResponse call() {
-//        try {
-//            Thread.sleep(500);
-//        }
-//        catch(InterruptedException e)
-//        {
-//            e.printStackTrace();
-//        }
-
         RequestResponse response = new RequestResponse(false, -1L, -1L);
         if (request.getRequestType() == Request.RequestType.BUY) {
             try {
+                System.out.println("BUY STOCK");
                 response = buyStocks();
             }
             catch(RepoException e)
@@ -89,6 +82,7 @@ public class ProcessRequest implements Callable<RequestResponse> {
         else if(request.getRequestType() == Request.RequestType.SELL)
         {
             try {
+                System.out.println("SELL STOCK");
                 response = sellStocks();
             }
             catch(RepoException e)

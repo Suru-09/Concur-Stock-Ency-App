@@ -1,49 +1,81 @@
-2022-12-19 21:37:07,906 ERROR Main [main] Size of my requests list:
-2022-12-19 21:37:07,912 ERROR Main [main] 10
-2022-12-19 21:37:09,067 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
-2022-12-19 21:37:09,068 INFO Main [pool-5-thread-1] {
- price: 40,
+2022-12-19 22:52:26,608 ERROR Main [main] Size of my requests list:
+2022-12-19 22:52:26,610 ERROR Main [main] 10
+2022-12-19 22:52:31,656 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,656 INFO Main [pool-5-thread-1] {
+ price: 13,
  noOfStocks: 6,
- companyId: 5,
+ companyId: 9,
  clientId: null,
  requestType: BUY
 }
-2022-12-19 21:37:09,071 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
-2022-12-19 21:37:09,071 INFO Main [pool-5-thread-1] {
- price: 84,
- noOfStocks: 13,
+2022-12-19 22:52:31,657 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,657 INFO Main [pool-5-thread-1] {
+ price: 86,
+ noOfStocks: 11,
  companyId: 7,
  clientId: null,
  requestType: BUY
 }
-2022-12-19 21:37:09,072 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
-2022-12-19 21:37:09,072 INFO Main [pool-5-thread-1] {
- price: 23,
+2022-12-19 22:52:31,657 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,657 INFO Main [pool-5-thread-1] {
+ price: 66,
+ noOfStocks: 19,
+ companyId: 4,
+ clientId: null,
+ requestType: BUY
+}
+2022-12-19 22:52:31,657 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,657 INFO Main [pool-5-thread-1] {
+ price: 67,
+ noOfStocks: 8,
+ companyId: 10,
+ clientId: null,
+ requestType: BUY
+}
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] {
+ price: 5,
  noOfStocks: 18,
- companyId: 6,
+ companyId: 5,
  clientId: null,
  requestType: BUY
 }
-2022-12-19 21:37:09,073 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
-2022-12-19 21:37:09,073 INFO Main [pool-5-thread-1] {
- price: 47,
- noOfStocks: 3,
- companyId: 12,
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] {
+ price: 12,
+ noOfStocks: 9,
+ companyId: 8,
  clientId: null,
  requestType: BUY
 }
-2022-12-19 21:37:09,079 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
-2022-12-19 21:37:09,080 INFO Main [pool-5-thread-1] {
- price: 80,
- noOfStocks: 11,
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] {
+ price: 40,
+ noOfStocks: 1,
  companyId: 2,
  clientId: null,
  requestType: BUY
 }
-2022-12-19 21:37:09,101 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
-2022-12-19 21:37:09,102 INFO Main [pool-5-thread-1] {
- price: 92,
- noOfStocks: 18,
+2022-12-19 22:52:31,658 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:31,659 INFO Main [pool-5-thread-1] {
+ price: 89,
+ noOfStocks: 7,
+ companyId: 6,
+ clientId: null,
+ requestType: BUY
+}
+2022-12-19 22:52:39,672 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:39,672 INFO Main [pool-5-thread-1] {
+ price: 90,
+ noOfStocks: 8,
+ companyId: 6,
+ clientId: null,
+ requestType: BUY
+}
+2022-12-19 22:52:39,672 INFO Main [pool-5-thread-1] Following request has been sent for processing: 
+2022-12-19 22:52:39,672 INFO Main [pool-5-thread-1] {
+ price: 42,
+ noOfStocks: 10,
  companyId: 10,
  clientId: null,
  requestType: BUY

@@ -15,15 +15,15 @@ import java.util.concurrent.*;
 public class RequestGate {
 
     private volatile static RequestGate instance;
-    private static BlockingQueue<Request> requestQ;
-    private static Map<Long, Boolean> processingMap;
+    private static volatile ConcurrentLinkedQueue<Request> requestQ;
+    private static volatile Map<Long, Boolean> processingMap;
     private GSONRepo repo;
-    private volatile static List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
+    static volatile List<Future<RequestResponse>> futureList = new ArrayList<Future<RequestResponse>>();
 
     private static final Logger log = LogManager.getLogger("Main");
 
     private RequestGate() {
-        requestQ = new LinkedBlockingQueue<Request>();
+        requestQ = new ConcurrentLinkedQueue<Request>();
         processingMap = new ConcurrentHashMap<Long, Boolean>();
         try {
             repo = GSONRepo.getInstance();
@@ -48,18 +48,17 @@ public class RequestGate {
         return ref;
     }
 
-    public void addRequest(String req) throws InterruptedException {
+    public synchronized void addRequest(String req) throws InterruptedException {
         System.out.println("Adaug request");
         //System.out.println(req);
         var request = RequestDeserializer.toRequest(req);
-        requestQ.put(request);
+        requestQ.add(request);
     }
 
-    public void sendRequestsForProcessing() throws ExecutionException, InterruptedException {
-
+    public void sendRequestsForProcessing() {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-
+        System.out.println("Size of requestQ: " + requestQ.size());
         for (Request r : requestQ) {
             if (!processingMap.containsKey(r.getCompanyId())) {
                 System.out.println("Following request has been sent for processing: ");
@@ -71,30 +70,46 @@ public class RequestGate {
                 requestQ.remove(r);
             }
             System.out.println("FUTURE LIST len " + futureList.size());
-            for(Future f: futureList)
-            {
-                if (f.isDone())
-                {
-                    System.out.println("Request has been processed!");
-                    RequestResponse resp = (RequestResponse) f.get();
-                    processingMap.remove(resp.getCompanyId());
-                    futureList.remove(f);
-
-                }
-            }
+//            for(Future<RequestResponse> f: futureList)
+//            {
+//                if (f.isDone())
+//                {
+//                    System.out.println("Request has been processed!");
+//                    try {
+//                        RequestResponse resp = (RequestResponse) f.get(2, TimeUnit.SECONDS);
+//                        processingMap.remove(resp.getCompanyId());
+//                        futureList.remove(f);
+//                        processingMap.clear();
+//                    }
+//                    catch (Exception e) {
+//                        System.out.println("MORTII MA-TIII");
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
         }
 
         executorService.shutdown();
         System.out.println("AAAa " + futureList.size());
-        for(Future f: futureList)
+        for(int i = 0; i < futureList.size(); ++i)
         {
+            var f = futureList.get(i);
+            System.out.println(f);
             if (f.isDone())
             {
-                System.out.println("Request has been processed!2");
-                RequestResponse resp = (RequestResponse) f.get();
-                processingMap.remove(resp.getCompanyId());
-                futureList.remove(f);
+                try {
+                    System.out.println("Request has been processed!2");
+                    RequestResponse resp = f.get(2, TimeUnit.SECONDS);
+                    processingMap.remove(resp.getCompanyId());
+                    futureList.remove(f);
+                    --i;
+                }
+                catch (Exception e) {
+                    System.out.println("MORTII MA-TIII");
+                    e.printStackTrace();
+                }
             }
         }
+        System.out.println("AAAa " + futureList.size());
     }
 }
