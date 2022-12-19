@@ -1,44 +1,49 @@
-package bzl.consumeRequest;
+package bzl.consumer;
+
 
 import bzl.processRequest.RequestGate;
 import com.rabbitmq.client.*;
+import rabbitMQ.ChannelsPool;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class RequestConsumer extends DefaultConsumer {
     RequestGate requestGate;
     ExecutorService executor;
+    ChannelsPool channelsPool;
 
     /**
      * Constructs a new instance and records its association to the passed-in channel.
      *
-     * @param channel the channel to which this consumer is attached
+     * @param channelsPool the ChannelsPool from which we acquire channel
      */
-    public RequestConsumer(Channel channel, String rabbitQ, RequestGate reqGate) {
-        super(channel);
+    public RequestConsumer(ChannelsPool channelsPool, String rabbitQ, RequestGate reqGate) {
+        super(channelsPool.acquire());
         requestGate = reqGate;
         try {
-            channel.basicConsume(rabbitQ, true, this);
+            var channel = super.getChannel();
+            channel.basicConsume(rabbitQ, false, this);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void handleDelivery(String consumerTag,
                                Envelope envelope,
                                AMQP.BasicProperties properties,
-                               byte[] body)
+                               byte[] body) throws IOException {
+        try {
+            requestGate.addRequest(new String(body, StandardCharsets.UTF_8));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-    {
-        requestGate.addRequest(new String(body, StandardCharsets.UTF_8));
-        requestGate.start();
+        var channel = super.getChannel();
+        channel.basicAck(envelope.getDeliveryTag(), false);
     }
 }
 
