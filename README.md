@@ -75,26 +75,10 @@
 
 ## **Class diagram**
 
-![ClassDiagram](docs/image.png)
+![ClassDiagram](docs/classDiagram.png)
 
 
-## TODO
-
--------------
 
 
-- [x] modify SendRequest so that each thread has only 1 channel 
-- [x] modify SendRequest so that it has only one connection for one Rabbit Queue.
-- [x] implement Sell and Buy stocks in ProcessRequest(bzl).
-- [x] also write back the new content for the companies in its json.
-- [x] make ConsumerRequest return on callback true/false for the processed request of the user.
-- [x] solve the serialising issues with futures when calling get() instead of isDone().
-- [x] add Log4J depdencies and initial configuration.
-- [x] configure logs so that we have a clear order of processing things,
-- [x] add Object Pool for both Connections and Channels
-- [x] modify requestGenerator so that we have ids for each user
-- [x] create UserRepository and users in a json file
-- [x] create matching class
-- [x] create a new event for Client Response once the Request has been processed
 
 
